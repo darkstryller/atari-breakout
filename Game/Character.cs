@@ -133,10 +133,15 @@ namespace Game
                 }
 
                 if (p_objB.objecttype == 3)
-                {
-                    p_objB.transform.position.x += -launch.x;
-                    p_objB.transform.position.y += -launch.y;
-                    Engine.Debug("la ball colisiono");
+                {// Flip the direction
+                    launch.x = -launch.x;
+                    launch.y = -launch.y;
+
+                    Engine.Debug("La ball colisiono");
+
+                    // Move the ball away from the collision to avoid immediate re-collision
+                    p_objB.transform.position.x += launch.x;
+                    p_objB.transform.position.y += launch.y;
                 }
                 return true;
             }
