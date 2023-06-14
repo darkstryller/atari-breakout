@@ -17,22 +17,21 @@ namespace Game
 
         public void DamageLife(int damage)
         {
-            /*
-            if(objecttype == 2)
-            {
+           
+            
                 life -= damage;
-            }
-           */
+            
+           
         }
 
         public void death()
         {
-            /*
-            if(objecttype== 2 && life <= 0)
+            
+            if(life <= 0)
             {
                 
             }
-            */
+            
         }
 
     }

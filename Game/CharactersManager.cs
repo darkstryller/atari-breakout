@@ -12,7 +12,6 @@ namespace Game
 
         private List<Character> characters = new List<Character>();
 
-        
             
 
         public void AddCharacter(Character p_newCharacter)
@@ -20,7 +19,6 @@ namespace Game
             characters.Add(p_newCharacter);
         }
         
-       
 
         public List<Character> GetCharacters()
         {
@@ -39,6 +37,5 @@ namespace Game
             }
         }
 
-      
     }
 }
