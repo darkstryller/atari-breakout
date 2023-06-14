@@ -8,26 +8,25 @@ namespace Game
 {
     public class Character
     {
-        private float life = 100f;
+        
 
         private Transform transform;
-        private Vector2 launch = new Vector2(1, -1);
+        private Vector2 launch = new Vector2(-1, -1);
         private float speed = 20;
         public float Speed => speed; 
         public float RealHeight => currentAnimation.CurrentFrame.Height * transform.scale.y;
         public float RealWidth => currentAnimation.CurrentFrame.Width * transform.scale.x;
-        private int objecttype;
-        public int ObjectType;
+        
         public Transform Transform => transform;
         
         Animation currentAnimation = null;
         Animation idle;
-
+        public string Tag;
         //List<Animation> animations = new List<Animation>();
 
-        public Character(Vector2 initialPos, int _objecttype)
+        public Character(Vector2 initialPos)
         {
-            objecttype = _objecttype;
+            
             idle = CreateAnimation("Idle","",4,2);
             transform = new Transform(initialPos,0,new Vector2(1,1));
 
@@ -47,24 +46,7 @@ namespace Game
             Engine.Draw(currentAnimation.CurrentFrame,transform.position.x, transform.position.y, transform.scale.x, transform.scale.y, 0, RealWidth / 2f, RealHeight / 2f);
         }
 
-        public void DamageLife(int damage)
-        {
-            
-            if(objecttype == 2)
-            {
-                life -= damage;
-            }
-           
-        }
-
-        public void death()
-        {
-            if(objecttype== 2 && life <= 0)
-            {
-                
-            }
-        }
-
+        
       /*  private Animation GetAnimation(string id)
         {
             for (int i = 0; i < animations.Count; i++)
@@ -125,24 +107,29 @@ namespace Game
             if(distanceX <= sumHalfWidths && distanceY <= sumHalfHeights)
             {
                 
-                if (p_objB.ObjectType == 2)
+               /* if (p_objB.ObjectType == 2)
                 {
                     p_objB.DamageLife(50);
                     Engine.Debug("colisione con brick");
                     
-                }
+                }*/
 
-                if (p_objB.objecttype == 3)
-                {// Flip the direction
+                
+               if(Tag == "ball")
+                {
+                    // Flip the direction
                     launch.x = -launch.x;
                     launch.y = -launch.y;
-
+                    
                     Engine.Debug("La ball colisiono");
 
                     // Move the ball away from the collision to avoid immediate re-collision
                     p_objB.transform.position.x += launch.x;
                     p_objB.transform.position.y += launch.y;
+
                 }
+
+
                 return true;
             }
             return false;
@@ -157,26 +144,21 @@ namespace Game
 
         public void ballMovement()
         {
-            if (objecttype == 3)
+
+            AddMove(launch);
+            if (transform.position.x < 0 || transform.position.x > 700)
             {
-                AddMove(launch);
-                 if(transform.position.x == 0 || transform.position.x == 700)
-             {
-                    launch.x = launch.x * -1;
-             }
-
-                 if(transform.position.y <= 0)
-                {
-                    launch.y = launch.y * -1;
-                }
-
-                if (transform.position.y >= 700)
-                {
-                    launch.y = launch.y * -1;
-                }
+                launch.x = launch.x * -1;
             }
 
+            if (transform.position.y < 50)
+            {
+                launch.y = launch.y * -1;
+            }
 
+            
         }
+
+    
     }
 }

@@ -17,8 +17,9 @@ namespace Game
         static float _rot = 0;
      
         static Character player;
-        static Character brick;
-        static Character ball;
+        
+        static Ball ball;
+        static Character ball2;
         static LevelManager level = new LevelManager { };
         static List<Bullet> bullets = new List<Bullet>();
 
@@ -34,12 +35,12 @@ namespace Game
             Engine.Initialize();
             
             level.levelsetter(levelcounter);
-            player = new Character(new Vector2(400,500), 1);
+            player = new Character(new Vector2(400,500));
            
             idle = CreateAnimation();
             currentAnimation = idle;
-            ball = new Character(new Vector2(400, 50), 3);
-            
+            ball = new Ball(new Vector2(400, 200));
+            ball2 = new Character(new Vector2(200, 200));
 
             SoundPlayer myplayer = new SoundPlayer("Sounds/XP.wav");
             //myplayer.PlayLooping();
@@ -55,24 +56,28 @@ namespace Game
 
         static void Update()
         {
-            if (Engine.GetKey(Keys.D))
+            if (Engine.GetKey(Keys.D) && player.Transform.position.x < 800 - player.RealWidth / 2)
             {
                 
-               player.AddMove(new Vector2(player.Speed * deltaTime, 0));
+               player.AddMove(new Vector2(player.Speed * 5 * deltaTime, 0));
             }
 
-            if (Engine.GetKey(Keys.A))
+            if (Engine.GetKey(Keys.A) && player.Transform.position.x > (0 + player.RealWidth) / 2)
             {
                 
-                player.AddMove(new Vector2(-player.Speed * deltaTime,0));
+                player.AddMove(new Vector2(-player.Speed * 5 * deltaTime,0));
             }
 
             ball.ballMovement();
+            ball2.ballMovement();
+
 
             for (int i = 0; i < bullets.Count; i++)
             {
                 bullets[i].Update();
             }
+
+            
 
             var l_characters = CharactersManager.Instance.GetCharacters();
             foreach (var character in l_characters)
@@ -84,10 +89,16 @@ namespace Game
                         {
                             //Engine.Debug("ESTOY COLISIONANDO");
                         }
+                        if (ball.IsBoxColliding(l_characters[i]))
+                        {
+
+                        }
                 }
 
                 character.Update();
             }
+
+           
             
             //currentAnimation.Update();
             //ship.Update();

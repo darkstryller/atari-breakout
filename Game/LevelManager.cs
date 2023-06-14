@@ -12,6 +12,7 @@ namespace Game
         private int totalbricks = 6;
         private Character brick;
         private Transform layout = new Transform(new Vector2(-50,-50),0,new Vector2(0,0));
+        public int score;
         public Transform Layout => layout;
         public int TotalBricks => totalbricks;
       
@@ -59,31 +60,31 @@ namespace Game
             
             if (_totalbricks == 1)
             {
-                brick = new Character(layout.position, 2);
+                brick = new Character(layout.position);
 
             }
 
             if (_totalbricks == 2)
             {
-                brick = new Character(layout.position, 2);
+                brick = new Character(layout.position);
 
             }
 
             if (_totalbricks == 3)
             {
-                brick = new Character(layout.position, 2);
+                brick = new Character(layout.position);
 
             }
 
             if (_totalbricks == 4)
             {
-                brick = new Character(layout.position, 2);
+                brick = new Character(layout.position);
 
             }
 
             if (_totalbricks == 5)
             {
-                brick = new Character(layout.position, 2);
+                brick = new Character(layout.position);
 
             }
 

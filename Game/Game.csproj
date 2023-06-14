@@ -38,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animation.cs" />
+    <Compile Include="Ball.cs" />
+    <Compile Include="Brick.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="CharactersManager.cs" />

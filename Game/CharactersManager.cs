@@ -12,7 +12,7 @@ namespace Game
 
         private List<Character> characters = new List<Character>();
 
-
+        
             
 
         public void AddCharacter(Character p_newCharacter)
