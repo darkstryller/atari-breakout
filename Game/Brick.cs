@@ -10,6 +10,7 @@ namespace Game
     {
 
         private float life = 100f;
+        private Transform transform;
         public Brick(Vector2 initialPos) : base(initialPos)
         {
 

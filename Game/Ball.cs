@@ -12,8 +12,6 @@ namespace Game
 
         private Vector2 launch = new Vector2(1, -1);
 
-        public Random rng = new Random();
-
 
         public Ball(Vector2 initialPos) : base(initialPos)
         {
