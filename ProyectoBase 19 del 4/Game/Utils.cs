@@ -20,10 +20,10 @@ namespace Game
     public struct Transform
     {
         public Vector2 position;
-        public float rotation;
+        public Vector2 rotation;
         public Vector2 scale;
 
-        public Transform(Vector2 p_initialPosition,float p_initialRotation,Vector2 p_scale)
+        public Transform(Vector2 p_initialPosition,Vector2 p_initialRotation,Vector2 p_scale)
         {
             position = p_initialPosition;
             rotation = p_initialRotation;

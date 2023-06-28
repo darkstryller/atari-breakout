@@ -6,13 +6,27 @@ using System.Threading.Tasks;
 
 namespace Game
 {
-    public class gameObject
+   
+    public abstract class gameObject : IRenderer
     {
         protected Transform transform;
 
         public bool Coll_Flag = false;
+        public bool M_renderer = true;
         public float RealHeight => currentAnimation.CurrentFrame.Height * transform.scale.y;
         public float RealWidth => currentAnimation.CurrentFrame.Width * transform.scale.x;
+
+        public bool renderer
+        {
+            get
+            {
+                return M_renderer;
+            }
+            set
+            {
+                M_renderer = value;
+            }
+        }
 
         public Animation currentAnimation = null;
 
@@ -77,5 +91,7 @@ namespace Game
             }
             return false;
         }
+
+        
     }
 }

@@ -25,11 +25,13 @@ namespace Game
         Animation idle;
         public Player(Vector2 initial_pos)
         {
-            transform = new Transform(initial_pos, 0, new Vector2(1, 1));
+            transform = new Transform(initial_pos,new Vector2(0, 0), new Vector2(1, 1));
             Tag = "player";
             idle = CreateAnimation("Idle", "", 4, 2);
             currentAnimation = idle;// GetAnimation("Idle");
             currentAnimation.Reset();
+            renderManager.Instance.addObject(this);
+            
         }
 
         
@@ -43,9 +45,10 @@ namespace Game
         {
             if (transform.position.x <= 0 + RealWidth/2 || transform.position.x >= 700 + RealWidth/2)
             {
-                
-                Speed = -Speed;
-                
+
+                transform.position.x += RealWidth / 2;
+
+
 
             }
 

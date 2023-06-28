@@ -10,19 +10,14 @@ namespace Game
         public static float deltaTime;
         static DateTime lastFrameTime = DateTime.Now;
 
-        static int input_Multiplier = 100;
-        static float _posY = 305;
-        static float _posX = 305;
-        static float _speed = 100;
         
-        static float _rot = 0;
-
-        static levelMaker levelMaker = new levelMaker{ };
+        
         
         static Player Player;
         static Ball ball;
         static Brick brick;
-        
+
+        public delegate void damageable();
        
 
         static Animation currentAnimation = null;
@@ -32,14 +27,15 @@ namespace Game
         static void Main(string[] args)
         {
             Engine.Initialize();
-            
+
             
             Player = new Player(new Vector2(400, 550));
             ball = new Ball(new Vector2(400, 350));
             idle = CreateAnimation();
             currentAnimation = idle;
-            
+            levelMaker.levelsetter();
             brick = new Brick(new Vector2(400, 200));
+            
             
             
             SoundPlayer myplayer = new SoundPlayer("Sounds/XP.wav");
@@ -68,10 +64,15 @@ namespace Game
                 Player.limits();
             }
 
+            if( Engine.GetKeyDown(Keys.SPACE))
+            {
+                brick.destroy();
+            }
+
             if (ball.IsBoxColliding(Player))
             {
 
-                ball.collisiontrue(Player.Tag, Player.Transform);
+                ball.collisiontrue("player", Player.Transform);
                 
             }
             ball.ballMovement();
@@ -80,14 +81,14 @@ namespace Game
 
             var l_bricks = LayoutManager.Instance.GetBricks();
 
-            levelMaker.levelsetter();
+            
             
             foreach(var brick in l_bricks)
             {
                 if (brick.IsBoxColliding(ball))
                 {
                     Engine.Debug("hit");
-                    ball.collisiontrue(brick.Tag, brick.Transform);
+                    ball.collisiontrue("Brick", brick.Transform);
                     brick.collisiontrue();
                 }
 
@@ -95,7 +96,7 @@ namespace Game
 
                 brick.Update();
             }
-
+            
 
         }
 
@@ -103,14 +104,13 @@ namespace Game
         {
             Engine.Clear();
             
-            Player.Draw();
-            ball.Draw();
-
-            foreach (var brick in LayoutManager.Instance.GetBricks())
+                
+            
+            foreach (var item in renderManager.Instance.getObjects())
             {
-                if (brick.isAlive == true)
+                if(item.renderer == true)
                 {
-                    brick.Draw();
+                    item.Draw();
                 }
                 
             }

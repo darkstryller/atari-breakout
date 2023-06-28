@@ -43,6 +43,8 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="gameObject.cs" />
+    <Compile Include="Idamageable.cs" />
+    <Compile Include="IRenderer.cs" />
     <Compile Include="LayoutManager.cs" />
     <Compile Include="levelMaker.cs" />
     <Compile Include="Player.cs" />

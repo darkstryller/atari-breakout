@@ -35,11 +35,13 @@ namespace Game
         Animation idle;
         public Ball(Vector2 initial_pos)
         {
-            transform = new Transform(initial_pos, 0, new Vector2(1, 1));
+            transform = new Transform(initial_pos, new Vector2(0, 0), new Vector2(1, 1));
             Tag = "ball";
             idle = CreateAnimation("Idle", "", 4, 2);
             currentAnimation = idle;// GetAnimation("Idle");
             currentAnimation.Reset();
+            renderManager.Instance.addObject(this);
+            
         }
        
       

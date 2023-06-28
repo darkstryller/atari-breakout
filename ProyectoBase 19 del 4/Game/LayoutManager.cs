@@ -6,6 +6,36 @@ using System.Threading.Tasks;
 
 namespace Game
 {
+    public class renderManager
+    {
+        private static renderManager instance;
+        private static List<IRenderer> renderers = new List<IRenderer>();
+        public static renderManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new renderManager();
+
+                }
+
+                return instance;
+            }
+        }
+
+        public List<IRenderer> getObjects()
+        {
+            List<IRenderer> renders = new List<IRenderer>(renderers);
+            return renders;
+        }
+
+        public void addObject(IRenderer p_newobject)
+        {
+            renderers.Add(p_newobject);
+        }
+
+    }
     public class LayoutManager
     {
         private static LayoutManager instance;

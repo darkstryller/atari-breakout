@@ -15,6 +15,8 @@ namespace Game
         static public int win;
 
         static int balls = 3;
+
+        
         
         static public void addPoint()
         {
