@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 namespace Game
 {
 
-    public class Brick : gameObject, Idamageable 
+    public class Brick : gameObject, Idamageable, IBricksSpawnPositions
     {
-        public int m_life = 100;
-        
-       
+
+        private int m_life;
+        private Vector2 position;
+
         public Transform Transform
         {
             get
@@ -35,6 +36,9 @@ namespace Game
             
         }
         public int life { get => m_life; }
+        public brickFactory.BrickSpawnPositions Type { get; private set; }
+
+        public bool IsActive { get; set; }
 
         public string Tag;
 
@@ -65,20 +69,34 @@ namespace Game
                 destroyerevent -= value;
             }
         }
+       
         
 
-        public Brick(Vector2 initial_pos)
+
+        public Brick(Vector2 initial_pos, int M_life)
         {
             Transform = new Transform(initial_pos, new Vector2(0, 0), new Vector2(1, 1));
-            idle = CreateAnimation("Idle", "", 4, 2);
+            idle = CreateAnimation("idle", "", 4, 2);
             Tag = "Brick";
+            m_life = M_life;
             currentAnimation = idle;// GetAnimation("Idle");
             currentAnimation.Reset();
             LayoutManager.Instance.AddBrick(this);
             renderManager.Instance.addObject(this);
+            onHit += hitEvent;
+            ondestroyer += destroyerevent;
+        }
+        public void Reset(Vector2 position)
+        {
+            
+            transform.position = position;
             
         }
 
+        private brickFactory.BrickSpawnPositions DetermineBrickType(Vector2 initial_pos)
+        {
+            throw new NotImplementedException();
+        }
         internal void collisiontrue()
         {
             DamageLife(50);
@@ -91,6 +109,11 @@ namespace Game
 
         }
 
+        public void SetPosition(Vector2 newPosition)
+        {
+            position = newPosition;
+        }
+
         public void DamageLife(int damage)
         {
             m_life -= damage;
@@ -99,13 +122,12 @@ namespace Game
 
         private void Kill()
         {
-            if(m_life <= 0)
-            {
+                
                 Engine.Debug("mori");
                 transform.position = new Vector2(-50, -50);
                 M_renderer = false;
                 GameManager.addPoint();
-            }
+           
         }
 
         public void destroy()
@@ -114,5 +136,7 @@ namespace Game
             mydestroy = true;
             o_isdestroyed = mydestroy;
         }
+
+      
     }
 }

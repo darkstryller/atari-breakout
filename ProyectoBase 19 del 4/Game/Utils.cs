@@ -16,6 +16,9 @@ namespace Game
             x = p_x;
             y = p_y;
         }
+
+        
+
     }
     public struct Transform
     {

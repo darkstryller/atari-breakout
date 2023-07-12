@@ -6,33 +6,64 @@ using System.Threading.Tasks;
 
 namespace Game
 {
-    public class GameManager : gameObject
+    public static class GameManager
     {
-        private Transform Transform => transform;
+        private static int score;
+        private static int win;
+        private static int totalwins;
+        private static int balls;
+        private static level originalLevel;
 
-        static private int score;
-
-        static public int win;
-
-        static int balls = 3;
-
-        
-        
-        static public void addPoint()
+        static GameManager()
         {
-           score = score + 1;
-            if(score >= win)
+            // Set initial values
+            score = 0;
+            win = 0;
+            balls = 3;
+            originalLevel = null;
+        }
+
+        public static void Initialize(level levelInstance)
+        {
+            originalLevel = levelInstance;
+            ResetGame();
+            win = originalLevel.totalbricks; // Set the number of bricks required to win
+        }
+
+        public static void addPoint()
+        {
+            score++;
+
+            if (score >= win)
             {
-                Engine.Debug("you win");
+                Engine.Debug("You win!");
+                totalwins++;
+                ResetGame();
             }
         }
 
-        static public void loser()
+        public static void loser()
         {
-            balls -= 1;
-            if(balls <= 0)
+            balls--;
+
+            if (balls <= 0)
             {
-                Engine.Debug("you lose");
+                Engine.Debug("You lose!");
+                Engine.Debug($"your won a total of {totalwins} times");
+                ResetGame();
+            }
+        }
+
+        private static void ResetGame()
+        {
+            // Reset score and ball count
+            score = 0;
+            balls = 3;
+
+            // Reset the level with the same brick layout
+            if (originalLevel != null)
+            {
+                originalLevel.levelsetter();
             }
         }
     }

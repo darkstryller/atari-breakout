@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Game
 {
-    class Ball : gameObject
+    public class Ball : gameObject
     {
         public Transform Transform
         {
@@ -72,7 +72,8 @@ namespace Game
                 speed = new Vector2(random_x, random_y);
             }
 
-            if(Tag == "Brick")
+            //if(Tag == "Brick")
+            else
             {
                 random_x = rng.Next(1, 3);
                 random_y = rng.Next(0, 4);
@@ -90,12 +91,10 @@ namespace Game
         internal void collisiontrue(string Tag, Transform transform)
         {
 
-            if (Coll_Flag == true)
-            {
-                Coll_Flag = false;
+            
 
                 newDirection(angleX, angleY, isNegative, Tag, transform);
-            }
+           
              
         }
         public void ballMovement()

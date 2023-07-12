@@ -17,26 +17,27 @@ namespace Game
         static Ball ball;
         static Brick brick;
 
-        public delegate void damageable();
-       
+        
+        static level start;
 
-        static Animation currentAnimation = null;
-        static Animation idle;
+        
 
 
         static void Main(string[] args)
         {
             Engine.Initialize();
-
+            
             
             Player = new Player(new Vector2(400, 550));
             ball = new Ball(new Vector2(400, 350));
-            idle = CreateAnimation();
-            currentAnimation = idle;
-            levelMaker.levelsetter();
-            brick = new Brick(new Vector2(400, 200));
+            start = new level();
+            
+            GameManager.Initialize(start);
+
             
             
+            
+           
             
             SoundPlayer myplayer = new SoundPlayer("Sounds/XP.wav");
             //myplayer.PlayLooping();
@@ -49,6 +50,7 @@ namespace Game
                 Draw();
             }
         }
+      
 
         static void Update()
         {
