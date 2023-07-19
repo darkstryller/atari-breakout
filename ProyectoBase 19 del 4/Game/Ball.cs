@@ -37,7 +37,7 @@ namespace Game
         {
             transform = new Transform(initial_pos, new Vector2(0, 0), new Vector2(1, 1));
             Tag = "ball";
-            idle = CreateAnimation("Idle", "", 4, 2);
+            idle = CreateAnimation("", "ball", 4, 2);
             currentAnimation = idle;// GetAnimation("Idle");
             currentAnimation.Reset();
             renderManager.Instance.addObject(this);
@@ -76,7 +76,7 @@ namespace Game
             else
             {
                 random_x = rng.Next(1, 3);
-                random_y = rng.Next(0, 4);
+                random_y = rng.Next(1, 4);
 
 
                 speed = new Vector2(-random_x, -random_y);
@@ -100,7 +100,7 @@ namespace Game
         public void ballMovement()
         {
             AddMove(speed);
-            if(transform.position.x <= 0 + RealWidth / 2 || transform.position.x >= 700 + RealWidth / 2)
+            if(transform.position.x <= 0 + RealWidth / 2 || transform.position.x >= 780 + RealWidth / 2)
             {
                 speed.x = -speed.x;
             }
@@ -115,6 +115,10 @@ namespace Game
                 GameManager.loser();
             }
         }
-
+        public void ResetPosition(Vector2 pos, Vector2 restSpeed)
+        {
+            transform.position = pos;
+            speed = restSpeed;
+        }
     }
 }

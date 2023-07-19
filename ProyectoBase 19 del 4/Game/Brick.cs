@@ -76,7 +76,7 @@ namespace Game
         public Brick(Vector2 initial_pos, int M_life)
         {
             Transform = new Transform(initial_pos, new Vector2(0, 0), new Vector2(1, 1));
-            idle = CreateAnimation("idle", "", 4, 2);
+            idle = CreateAnimation("", "brick", 4, 2);
             Tag = "Brick";
             m_life = M_life;
             currentAnimation = idle;// GetAnimation("Idle");
@@ -93,10 +93,7 @@ namespace Game
             
         }
 
-        private brickFactory.BrickSpawnPositions DetermineBrickType(Vector2 initial_pos)
-        {
-            throw new NotImplementedException();
-        }
+        
         internal void collisiontrue()
         {
             DamageLife(50);
@@ -109,10 +106,7 @@ namespace Game
 
         }
 
-        public void SetPosition(Vector2 newPosition)
-        {
-            position = newPosition;
-        }
+      
 
         public void DamageLife(int damage)
         {

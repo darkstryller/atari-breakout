@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Media;
+using System.Windows;
 
 namespace Game
 {
@@ -13,10 +14,10 @@ namespace Game
         
         
         
-        static Player Player;
+        static Player player;
         static Ball ball;
-        static Brick brick;
-
+        static GameOverScreen gameoverscreen;
+        
         
         static level start;
 
@@ -28,16 +29,12 @@ namespace Game
             Engine.Initialize();
             
             
-            Player = new Player(new Vector2(400, 550));
+            player = new Player(new Vector2(400, 550));
             ball = new Ball(new Vector2(400, 350));
             start = new level();
-            
-            GameManager.Initialize(start);
-
-            
-            
-            
-           
+            gameoverscreen = new GameOverScreen(new Vector2(400, 300));
+            gameoverscreen.renderer = false;
+            GameManager.Initialize(start, player, gameoverscreen, ball);
             
             SoundPlayer myplayer = new SoundPlayer("Sounds/XP.wav");
             //myplayer.PlayLooping();
@@ -45,8 +42,14 @@ namespace Game
             while (true)
             {
                 calcDeltatime();
-
+                
                 Update();
+                if (Engine.GetKey(Keys.SPACE) && GameManager.Loser)
+                {
+                    gameoverscreen.renderer = false; 
+                    GameManager.ResetGame();
+                }
+
                 Draw();
             }
         }
@@ -54,27 +57,35 @@ namespace Game
 
         static void Update()
         {
-            
+            if (GameManager.Loser == true)
+            {
+                foreach (var item in renderManager.Instance.getObjects())
+                {
+
+                    item.renderer = false;
+
+                }
+
+                return;
+            }
+
             if (Engine.GetKey(Keys.A))
             {
-                Player.AddMove(new Vector2(-Player.Speed * deltaTime, 0));
-                Player.limits();
+                player.AddMove(new Vector2(-player.Speed * deltaTime, 0));
+                player.limits();
             }
             if (Engine.GetKey(Keys.D))
             {
-                Player.AddMove(new Vector2(Player.Speed * deltaTime, 0));
-                Player.limits();
+                player.AddMove(new Vector2(player.Speed * deltaTime, 0));
+                player.limits();
             }
 
-            if( Engine.GetKeyDown(Keys.SPACE))
-            {
-                brick.destroy();
-            }
+           
 
-            if (ball.IsBoxColliding(Player))
+            if (ball.IsBoxColliding(player))
             {
 
-                ball.collisiontrue("player", Player.Transform);
+                ball.collisiontrue("player", player.Transform);
                 
             }
             ball.ballMovement();
@@ -89,7 +100,7 @@ namespace Game
             {
                 if (brick.IsBoxColliding(ball))
                 {
-                    Engine.Debug("hit");
+                    
                     ball.collisiontrue("Brick", brick.Transform);
                     brick.collisiontrue();
                 }
@@ -98,7 +109,8 @@ namespace Game
 
                 brick.Update();
             }
-            
+
+           
 
         }
 
@@ -114,11 +126,19 @@ namespace Game
                 {
                     item.Draw();
                 }
+
                 
             }
             //ship.Render();
-          
-
+            if(gameoverscreen != null)
+            {
+                if (gameoverscreen.renderer == true)
+                {
+                    gameoverscreen.Draw();
+                }
+            }
+           
+            
 
             Engine.Show();
         }
@@ -133,19 +153,6 @@ namespace Game
 
        
 
-        private static Animation CreateAnimation()
-        {
-            // Idle Animation
-            List<Texture> idleFrames = new List<Texture>();
-
-            for (int i = 0; i < 4; i++)
-            {
-                idleFrames.Add(Engine.GetTexture($"{i}.png"));
-            }
-
-            Animation idleAnimation = new Animation("Idle", idleFrames, 2, true);
-
-            return idleAnimation;
-        }
+       
     }
 }

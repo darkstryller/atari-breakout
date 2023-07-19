@@ -9,16 +9,13 @@ namespace Game
 
     public static class brickFactory
     {
-        public static Vector2 spawn;
+        
 
         private static brickPool brickPool = new brickPool();
 
         public enum BrickSpawnPositions { glassBrick, normalBrick, toughBrick }
         
-        public static void SetSpawn(Vector2 position)
-        {
-            spawn = position;
-        }
+        
 
         public static IBricksSpawnPositions CreateBrick(BrickSpawnPositions brick, Vector2 spawn)
         {

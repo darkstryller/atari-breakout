@@ -20,21 +20,27 @@ namespace Game
             }
         }
 
+        private float leftBoundary;
+        private float rightBoundary;
         public string Tag;
         public float Speed = 250;
         Animation idle;
         public Player(Vector2 initial_pos)
         {
+            
             transform = new Transform(initial_pos,new Vector2(0, 0), new Vector2(1, 1));
             Tag = "player";
-            idle = CreateAnimation("idle", "", 4, 2);
+            idle = CreateAnimation("", "player", 4, 2);
             currentAnimation = idle;// GetAnimation("Idle");
             currentAnimation.Reset();
             renderManager.Instance.addObject(this);
-            
+            leftBoundary = RealWidth / 2;
+            rightBoundary = 800 - (RealWidth / 2);
+
+
         }
 
-        
+
         public void AddMove(Vector2 pos)
         {
             transform.position.x += pos.x;
@@ -43,20 +49,20 @@ namespace Game
 
         public void limits()
         {
-            if (transform.position.x <= 0 + RealWidth/2)
+            if (transform.position.x <= leftBoundary)
             {
-
-                transform.position.x += RealWidth / 2/ 2;
-
+                transform.position.x = leftBoundary;
             }
-
-            if(transform.position.x >= 700 + RealWidth / 2)
+            else if (transform.position.x >= rightBoundary)
             {
-                transform.position.x -= RealWidth / 2/ 2;
-
-
-            }  
-            
+                transform.position.x = rightBoundary;
+            }
         }
+
+        public void ResetPosition(Vector2 newPosition)
+        {
+            transform.position = newPosition;
+        }
+
     }
 }
