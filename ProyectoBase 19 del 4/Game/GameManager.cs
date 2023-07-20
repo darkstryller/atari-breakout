@@ -9,14 +9,17 @@ namespace Game
     public static class GameManager
     {
         private static int score;
-        private static int win;
+        public static int win;
         private static int totalwins;
         private static int balls;
+        private static brickPool pool;
         private static level originalLevel;
         private static Player player;
         private static GameOverScreen gameOver;
         private static Ball ball;
         public static bool Loser;
+
+        private static List<IBricksSpawnPositions> activeBricks = new List<IBricksSpawnPositions>();
 
         static GameManager()
         {
@@ -34,8 +37,12 @@ namespace Game
             player = playerInstance;
             gameOver = gameOverScreenInstance;
             ball = ballinstance;
+            pool = new brickPool();
+            pool.ResetPool();
             ResetGame();
-            win = originalLevel.totalbricks; // Set the number of bricks required to win
+            win = levelInstance.totalbricks;
+            totalwins = 0;
+
         }
 
         public static void addPoint()
@@ -57,9 +64,14 @@ namespace Game
             if (balls <= 0)
             {
                 Engine.Debug("You lose!");
-                
-                ShowGameOverScreen(totalwins);
                 Loser = true;
+                ShowGameOverScreen(totalwins);
+                
+                
+                foreach (var brick in activeBricks)
+                {
+                    brickFactory.ReleaseBrick(brick);
+                }
             }
         }
 
@@ -71,7 +83,15 @@ namespace Game
                 gameOver.renderer = true; 
             }
         }
+        public static void AddActiveBrick(IBricksSpawnPositions brick)
+        {
+            activeBricks.Add(brick);
+        }
 
+        public static void RemoveActiveBrick(IBricksSpawnPositions brick)
+        {
+            activeBricks.Remove(brick);
+        }
         public static void ResetGame()
         {
             
@@ -86,6 +106,7 @@ namespace Game
             }
             if (originalLevel != null)
             {
+                
                 originalLevel.levelsetter();
             }
 
@@ -98,6 +119,8 @@ namespace Game
             {
                 ball.ResetPosition(new Vector2(400, 350), new Vector2(1, 1));
             }
+            Engine.Debug(win + "" + "bricks to win");
+            pool.ResetPool();
         }
 
     }

@@ -31,13 +31,11 @@ namespace Game
             }
 
             brick.IsActive = true;
+            GameManager.AddActiveBrick(brick);
             return brick;
         }
 
-        public void ReleaseBrick(IBricksSpawnPositions brick)
-        {
-            brick.IsActive = false;
-        }
+       
 
         private int GetBrickLife(brickFactory.BrickSpawnPositions type)
         {
@@ -52,6 +50,14 @@ namespace Game
                     return 400;
                 default:
                     return 0;
+            }
+        }
+
+        public void ResetPool()
+        {
+            foreach (var brick in pool)
+            {
+                brick.IsActive = false;
             }
         }
     }

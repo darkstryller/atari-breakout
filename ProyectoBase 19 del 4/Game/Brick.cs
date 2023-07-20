@@ -106,7 +106,11 @@ namespace Game
 
         }
 
-      
+        public void Release()
+        {
+            
+            IsActive = false;
+        }
 
         public void DamageLife(int damage)
         {

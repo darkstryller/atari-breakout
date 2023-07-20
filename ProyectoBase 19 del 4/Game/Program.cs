@@ -17,7 +17,7 @@ namespace Game
         static Player player;
         static Ball ball;
         static GameOverScreen gameoverscreen;
-        
+        static brickPool pool;
         
         static level start;
 
